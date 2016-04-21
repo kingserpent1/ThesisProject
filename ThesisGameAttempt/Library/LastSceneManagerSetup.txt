@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/Sceneone.unity
+  isLoaded: 1
+  isActive: 1
