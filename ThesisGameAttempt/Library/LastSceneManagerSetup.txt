@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Sceneone.unity
+- path: Assets/TurnInStage2.unity
   isLoaded: 1
   isActive: 1

@@ -4,9 +4,12 @@ using UnityEngine.UI;
 
 public class RadioMusic : MonoBehaviour 
 {
-    public Manager manager;
+    
     public GameObject textObject;
     public Text text;
+
+    public AudioSource radioSource;
+    public AudioClip radioClip;
 
     public string[] dialogueList;
     int i = 0;
@@ -23,6 +26,7 @@ public class RadioMusic : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            
             text.enabled = true;
 
             if (Input.GetKeyDown(KeyCode.E))
@@ -38,7 +42,7 @@ public class RadioMusic : MonoBehaviour
                     i = 0;
                 }
                 
-                AudioManager.instance.PlayRadio(gameObject);
+                AudioManager.instance.PlayRadio(radioSource, radioClip);
             }
         }
     }
@@ -46,6 +50,7 @@ public class RadioMusic : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         text.enabled = false;
+        text.text = "Press 'E' to Activate";
     }
 }
 	

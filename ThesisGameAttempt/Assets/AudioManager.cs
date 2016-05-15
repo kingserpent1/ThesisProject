@@ -12,8 +12,16 @@ public class AudioManager : MonoBehaviour
 
     //public
     public bool isWorldPlaying = false;
-    public bool isMusicPlaying = false;
+    public bool isRadioPlaying = false;
     public bool isActivePlaying = false;
+
+    public AudioMixerSnapshot snapWorld;
+    public AudioMixerSnapshot snapRadio;
+    public AudioMixerSnapshot snapMiscRadio;
+    public AudioMixerSnapshot snapMiscWorld;
+    
+    //Time to fade out music
+    public float fadeTime = 1.0f;
 
     public AudioMixer musicMixer = null;
     public uint musicChannels = 2;
@@ -23,6 +31,7 @@ public class AudioManager : MonoBehaviour
 
     //private
     private AudioSource world, radio, active;
+    private AudioClip worldMusic, radioMusic;
     //private GameObject projects, 
 
     
@@ -59,12 +68,13 @@ public class AudioManager : MonoBehaviour
     private void Init()
     {
         isWorldPlaying = false;
-        isMusicPlaying = false;
+        isRadioPlaying = false;
         isActivePlaying = false;
 
+       
         
 
-        musicMixer = Resources.Load("Music") as AudioMixer;
+        musicMixer = Resources.Load("Master") as AudioMixer;
         mx = new GameObject[musicChannels];
 
         for (int i = 0; i < mx.Length; i++)
@@ -72,10 +82,10 @@ public class AudioManager : MonoBehaviour
             GameObject sourceObj = new GameObject("MusicChannel_" + i.ToString());
             sourceObj.transform.SetParent(this.transform);
 
-            AudioSource source = sourceObj.AddComponent<AudioSource>();
-            source.outputAudioMixerGroup = musicMixer.FindMatchingGroups(this.groupPath)[0];
+            //AudioSource source = sourceObj.AddComponent<AudioSource>();
+            //source.outputAudioMixerGroup = musicMixer.FindMatchingGroups(this.groupPath)[0];
 
-            Debug.Log("Source.outputAudioMixerGroup: " + source.outputAudioMixerGroup.name);
+            //Debug.Log("Source.outputAudioMixerGroup: " + source.outputAudioMixerGroup.name);
 
             mx[i] = sourceObj;
         }
@@ -87,41 +97,74 @@ public class AudioManager : MonoBehaviour
         
     }
 
-    void PlayWorldMusic(GameObject other)
+    public void PlayWorldMusic(AudioSource worldSource, AudioClip worldClip)
     {
-        world = other.GetComponent<AudioSource>();
-        
+        world = worldSource;
+        worldMusic = worldClip;
+        world.Play();
+        isWorldPlaying = true;
+        snapMiscWorld.TransitionTo(fadeTime);
     }
-    void StopWorldMusic()
+
+    public void StopWorldMusic()
     {
          
-        if (isMusicPlaying)
+        if (isRadioPlaying)
         {
             isWorldPlaying = false;
             world.Stop();
         }
-        else if (!isMusicPlaying)
+        else if (!isRadioPlaying)
         {
-            isMusicPlaying = false;
-            
+            isRadioPlaying = false;
+            //world.Play();
         }
     }
 
-    public void PlayRadio(GameObject other)
+    public void PlayRadio(AudioSource radioSource, AudioClip radioClip)
     {
-        radio = other.GetComponent<AudioSource>();
-        if (!radio.isPlaying)
+        
+        radio = radioSource;
+        radioMusic = radioClip;
+
+        if (!isRadioPlaying)
         {
-            isMusicPlaying = true;
-            StopWorldMusic();
+            isRadioPlaying = true;
+            isWorldPlaying = false;
+            radio.Stop();
+            //StopWorldMusic();
             radio.Play();
+            snapRadio.TransitionTo(fadeTime);
+            snapMiscRadio.TransitionTo(fadeTime);
 
         }
         else if (radio.isPlaying) 
         {
-            isMusicPlaying = false;
-            PlayWorldMusic(other);
-            radio.Stop();
+            isRadioPlaying = false;
+            
+            PlayWorldMusic(world, worldMusic);
+            snapWorld.TransitionTo(fadeTime);
+            snapMiscWorld.TransitionTo(fadeTime);
+            //radio.Stop();
         }
+    }
+
+    public void PlayFootSteps(AudioSource src, AudioClip[] clips)
+    {
+        src.clip = clips[Random.Range(0, clips.Length)];
+        src.Play();
+    }
+
+
+    public void PlayDialogue(AudioSource dialogue, AudioClip[] lines, int i)
+    {
+            
+            dialogue.clip = lines[i];
+
+            if (!dialogue.isPlaying)
+            {
+                dialogue.Play();
+            }
+        
     }
 }
