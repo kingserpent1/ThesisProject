@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour
 
     //public
     public bool isWorldPlaying = false;
+<<<<<<< HEAD
     public bool isRadioPlaying = false;
     public bool isActivePlaying = false;
 
@@ -23,6 +24,11 @@ public class AudioManager : MonoBehaviour
     //Time to fade out music
     public float fadeTime = 1.0f;
 
+=======
+    public bool isMusicPlaying = false;
+    public bool isActivePlaying = false;
+
+>>>>>>> master
     public AudioMixer musicMixer = null;
     public uint musicChannels = 2;
     public GameObject[] mx;
@@ -31,7 +37,10 @@ public class AudioManager : MonoBehaviour
 
     //private
     private AudioSource world, radio, active;
+<<<<<<< HEAD
     private AudioClip worldMusic, radioMusic;
+=======
+>>>>>>> master
     //private GameObject projects, 
 
     
@@ -68,6 +77,7 @@ public class AudioManager : MonoBehaviour
     private void Init()
     {
         isWorldPlaying = false;
+<<<<<<< HEAD
         isRadioPlaying = false;
         isActivePlaying = false;
 
@@ -75,6 +85,14 @@ public class AudioManager : MonoBehaviour
         
 
         musicMixer = Resources.Load("Master") as AudioMixer;
+=======
+        isMusicPlaying = false;
+        isActivePlaying = false;
+
+        
+
+        musicMixer = Resources.Load("Music") as AudioMixer;
+>>>>>>> master
         mx = new GameObject[musicChannels];
 
         for (int i = 0; i < mx.Length; i++)
@@ -82,10 +100,17 @@ public class AudioManager : MonoBehaviour
             GameObject sourceObj = new GameObject("MusicChannel_" + i.ToString());
             sourceObj.transform.SetParent(this.transform);
 
+<<<<<<< HEAD
             //AudioSource source = sourceObj.AddComponent<AudioSource>();
             //source.outputAudioMixerGroup = musicMixer.FindMatchingGroups(this.groupPath)[0];
 
             //Debug.Log("Source.outputAudioMixerGroup: " + source.outputAudioMixerGroup.name);
+=======
+            AudioSource source = sourceObj.AddComponent<AudioSource>();
+            source.outputAudioMixerGroup = musicMixer.FindMatchingGroups(this.groupPath)[0];
+
+            Debug.Log("Source.outputAudioMixerGroup: " + source.outputAudioMixerGroup.name);
+>>>>>>> master
 
             mx[i] = sourceObj;
         }
@@ -97,6 +122,7 @@ public class AudioManager : MonoBehaviour
         
     }
 
+<<<<<<< HEAD
     public void PlayWorldMusic(AudioSource worldSource, AudioClip worldClip)
     {
         world = worldSource;
@@ -110,10 +136,22 @@ public class AudioManager : MonoBehaviour
     {
          
         if (isRadioPlaying)
+=======
+    void PlayWorldMusic(GameObject other)
+    {
+        world = other.GetComponent<AudioSource>();
+        
+    }
+    void StopWorldMusic()
+    {
+         
+        if (isMusicPlaying)
+>>>>>>> master
         {
             isWorldPlaying = false;
             world.Stop();
         }
+<<<<<<< HEAD
         else if (!isRadioPlaying)
         {
             isRadioPlaying = false;
@@ -136,10 +174,28 @@ public class AudioManager : MonoBehaviour
             radio.Play();
             snapRadio.TransitionTo(fadeTime);
             snapMiscRadio.TransitionTo(fadeTime);
+=======
+        else if (!isMusicPlaying)
+        {
+            isMusicPlaying = false;
+            
+        }
+    }
+
+    public void PlayRadio(GameObject other)
+    {
+        radio = other.GetComponent<AudioSource>();
+        if (!radio.isPlaying)
+        {
+            isMusicPlaying = true;
+            StopWorldMusic();
+            radio.Play();
+>>>>>>> master
 
         }
         else if (radio.isPlaying) 
         {
+<<<<<<< HEAD
             isRadioPlaying = false;
             
             PlayWorldMusic(world, worldMusic);
@@ -167,4 +223,11 @@ public class AudioManager : MonoBehaviour
             }
         
     }
+=======
+            isMusicPlaying = false;
+            PlayWorldMusic(other);
+            radio.Stop();
+        }
+    }
+>>>>>>> master
 }

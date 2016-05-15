@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class dialogue : MonoBehaviour
 {
+<<<<<<< HEAD
    
     public GameObject textObject;
     public Text text;
@@ -12,6 +13,12 @@ public class dialogue : MonoBehaviour
     public AudioSource src;
     public AudioClip[] clips;
 
+=======
+    public Manager manager;
+    public GameObject textObject;
+    public Text text;
+
+>>>>>>> master
     public string[] dialogueList;
     int i = 0;
 
@@ -27,7 +34,10 @@ public class dialogue : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+<<<<<<< HEAD
             
+=======
+>>>>>>> master
             text.enabled = true;
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -42,7 +52,11 @@ public class dialogue : MonoBehaviour
                     i = 0;
                 }
                 
+<<<<<<< HEAD
                AudioManager.instance.PlayDialogue(src, clips, i);
+=======
+                manager.PlayDialogue(gameObject);
+>>>>>>> master
             }
         }
     }
@@ -50,6 +64,9 @@ public class dialogue : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         text.enabled = false;
+<<<<<<< HEAD
         text.text = "Press 'E' to Activate";
+=======
+>>>>>>> master
     }
 }

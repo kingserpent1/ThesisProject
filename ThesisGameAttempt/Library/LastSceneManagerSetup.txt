@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/TurnInStage2.unity
+=======
+- path: Assets/Sceneone.unity
+>>>>>>> master
   isLoaded: 1
   isActive: 1

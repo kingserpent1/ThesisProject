@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Audio;
+<<<<<<< HEAD
 using System.Collections.Generic;
+=======
+>>>>>>> master
 
 public class Manager : MonoBehaviour
 {
@@ -10,11 +13,16 @@ public class Manager : MonoBehaviour
     public string[] inventory;
     public int invenPlacer = 0;
     public string[] items;
+<<<<<<< HEAD
 
     //Maze Generation Tiles selection Variables
     public List<GameObject> tiles = new List<GameObject>();
     public List<GameObject> entrances = new List<GameObject>();
     public GameObject tile = null;
+=======
+    
+
+>>>>>>> master
 
     public static Manager _instance = null;
 
@@ -52,6 +60,7 @@ public class Manager : MonoBehaviour
             items[i] = "key " + i.ToString();
         }
 
+<<<<<<< HEAD
     }
 
     //Start with list of tiles
@@ -65,6 +74,20 @@ public class Manager : MonoBehaviour
         tile = tiles[selector];
         tiles.Remove(tile);
         return tile;
+=======
+
+
+
+    }
+
+    public void PlayDialogue(GameObject name)
+    {
+        dialogue = name.GetComponent<AudioSource>();
+        if (!dialogue.isPlaying)
+        {
+            dialogue.Play();
+        }
+>>>>>>> master
     }
 
 
